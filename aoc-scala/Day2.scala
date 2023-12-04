@@ -1,4 +1,3 @@
-import java.util.Stack
 import scala.collection.mutable.HashMap
 
 
@@ -46,8 +45,6 @@ def getGameIdAndRest(line: String) : (Int, String) =
 
 def parseNum(l: String): Int =
     var n = 0;
-
-    val s = Stack[Int]()
 
     var i = 0
 
