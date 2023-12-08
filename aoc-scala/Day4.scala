@@ -1,22 +1,42 @@
 @main def Day4: Unit =
+    part1()
+
+class Card(val winningNumbers: Array[Int], val cardNumbers: Array[Int])
+
+def part1(): Unit =
     val fileName = "../inputs/day4.txt"
     val bufferedSource = scala.io.Source.fromFile(fileName)
 
-    val x = bufferedSource.getLines()
-        .map(line => line.split(":")(1).split('|').map(parts => parts.split(' ').filter(p => p != "").map(n => n.toInt)))
-        .map(nums => getCardScore(nums(0), nums(1)))
+    val result = bufferedSource.getLines()
+        .map(line => parseCardLine(line))
+        .map(card => getCardScore(card))
         .sum
 
-
-    println(x)
+    println(s"Part 1 result: $result")
 
     bufferedSource.close()
 
-    
-def getCardScore(winningNumbers: Array[Int], cardNumbers: Array[Int]): Int =    
+def part2(): Unit =
+    val fileName = "../inputs/day4.txt"
+    val bufferedSource = scala.io.Source.fromFile(fileName)
+
+    val lines = bufferedSource.getLines().toArray
+
+    for (line <- lines) {
+
+    }
+
+    bufferedSource.close()
+
+def parseCardLine(line: String): Card = 
+    val nums = line.split(":")(1).split('|').map(parts => parts.split(' ').filter(p => p != "").map(n => n.toInt))
+
+    return Card(nums(0), nums(1))
+
+def getCardScore(card: Card): Int =    
     var score = 1
 
-    val winningCardNumbers = cardNumbers.count(n => winningNumbers.contains(n))
+    val winningCardNumbers = card.cardNumbers.count(n => card.winningNumbers.contains(n))
 
     score = score << winningCardNumbers
     score = score >> 1
