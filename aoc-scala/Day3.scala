@@ -6,14 +6,14 @@ class Number(val number: Int, val x1: Int, val x2: Int, val y: Int):
         return positionX >= x1 - 1 && positionX <= x2 + 1 && positionY >= y - 1 && positionY <= y + 1
 
 @main def Day3(): Unit =
-    part1()
+    // part1()
+    part2()
 
 def part1(): Unit =
     val fileName = "../inputs/day3.txt"
     val bufferedSource = scala.io.Source.fromFile(fileName)
 
     val lines = bufferedSource.getLines().toArray
-    val lineLength = lines(0).length
 
     val symbols = lines.zipWithIndex
         .map((line, i) => parseSymbols(line, i))
@@ -31,6 +31,30 @@ def part1(): Unit =
 
     println(s"Part 1 result: $result")
 
+    bufferedSource.close()
+
+def part2(): Unit =
+    val fileName = "../inputs/day3.txt"
+    val bufferedSource = scala.io.Source.fromFile(fileName)
+
+    val lines = bufferedSource.getLines().toArray
+
+    val numbers = lines.zipWithIndex
+        .map((line, i) => parseNumbers(line, i))
+        .flatMap(n => n)
+        .toArray
+
+    val gears = lines.zipWithIndex
+        .map((line, i) => parseSymbols(line, i))
+        .flatMap(s => s)
+        .filter(s => s.symbol == '*' && numbers.count(n => n.isAdjacentTo(s.x, s.y)) == 2)
+
+    val result = gears
+        .map(gear => numbers.filter(n => n.isAdjacentTo(gear.x, gear.y)).map(n => n.number).product)
+        .sum
+
+    println(s"Part 2 result: $result")
+    
     bufferedSource.close()
 
 
