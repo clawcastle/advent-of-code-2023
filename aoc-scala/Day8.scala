@@ -17,13 +17,12 @@ def part1(): Unit =
 
     val instructions = parseInstructions(instructionsLine).toArray
 
-    val root = parseNode(nodesLines.next())
-
     val nodes = nodesLines
         .map(line => parseNode(line))
-        .concat(Iterable[Node](root))
         .map(node => (node.id, node))
         .toMap
+
+    val root = nodes("AAA")
 
     var count = 0
     var instructionIndex = 0
